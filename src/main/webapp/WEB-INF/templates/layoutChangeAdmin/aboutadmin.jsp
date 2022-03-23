@@ -24,7 +24,7 @@
                     <div class="card-body">
                         <div class="author">
                             <a href="#">
-                                <img class="avatar border-gray " src="/static/upload/team_05.jpg" alt="...">
+                                <img class="avatar border-gray " src="/static/upload/admin.png" alt="...">
                                 <h5 class="title text-left">${item.username}</h5>
                             </a>
                         </div>

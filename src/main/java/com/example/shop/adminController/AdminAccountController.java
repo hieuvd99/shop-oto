@@ -1,4 +1,4 @@
-package com.example.shop.controller;
+package com.example.shop.adminController;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ import com.example.shop.service.AccountService;
 import com.example.shop.service.SessionService;
 
 @Controller
-public class AccountController {
+public class AdminAccountController {
 
 	@Autowired
 	private AccountService accountService;
