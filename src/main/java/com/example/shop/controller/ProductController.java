@@ -21,7 +21,6 @@ import com.example.shop.service.ProductService;
 import com.example.shop.service.SessionService;
 
 
-
 @Controller
 public class ProductController {
 
@@ -155,4 +154,22 @@ public class ProductController {
         model.addAttribute("page", page);
         return "layoutShop/products";
     }
+    
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

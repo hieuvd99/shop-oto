@@ -47,9 +47,10 @@ public class Product implements Serializable {
 	
 	@ManyToOne 
 	@JoinColumn(name = "categoryid")
-	private Category category;
-//	@OneToMany(mappedBy = "product")
-//	private List<OrderDetail> orderDetails;
+	Category category;
+
+	@OneToMany(mappedBy = "products")
+	List<OrderDetail> orderdetails;
 
 	public Long getId() {
 		return id;
@@ -122,5 +123,12 @@ public class Product implements Serializable {
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
+	
+	public List<OrderDetail> getOrderDetails() {
+		return orderdetails;
+	}
 
+	public void setOrderDetails(List<OrderDetail> orderdetails) {
+		this.orderdetails = orderdetails;
+	}
 }

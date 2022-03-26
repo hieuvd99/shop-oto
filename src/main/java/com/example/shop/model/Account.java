@@ -1,6 +1,7 @@
 package com.example.shop.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
 import com.sun.istack.NotNull;
+
 
 @Entity
 @Table(name = "account")
@@ -31,8 +33,15 @@ public class Account implements Serializable{
     private String address;
     private Integer phone;
     private String photo;
+    @OneToMany(mappedBy = "account")
+    List<Order> orders;
     
-    
+	public List<Order> getOrders() {
+		return orders;
+	}
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
 	public Long getId() {
 		return id;
 	}

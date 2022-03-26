@@ -93,7 +93,7 @@ a.filled-button:hover {
 }
 
 .about-heading {
-	background-image: url(../images/about-heading.jpg);
+	background-image: url(../images/about-heading.jpeg);
 }
 
 .contact-heading {
@@ -694,7 +694,6 @@ footer .inner-content p a {
 
 .team-member .thumb-container .hover-effect {
 	position: absolute;
-	background-color: rgba(243,63,63,0.9);
 	top: 0;
 	left: 0;
 	width: 100%;
@@ -760,7 +759,7 @@ footer .inner-content p a {
 	padding: 40px;
 }
 
-.services .service-item .icon i {
+.services .service-item .icon img {
 	width: 100px;
 	height: 100px;
 	display: inline-block;

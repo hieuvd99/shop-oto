@@ -26,4 +26,6 @@ public interface ProductService {
 	Page<Product> findByCategoryId(long keywords, Pageable pageable);
 
 	Page<Product> findByPriceBetween(double a, double b, Pageable pageable);
+	
+	
 }
