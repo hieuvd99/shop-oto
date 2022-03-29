@@ -25,9 +25,9 @@ public class SessionServiceImpl implements SessionService{
 	}
 
 	@Override
-	public void remove(String name) {
+	public void invalidate() {
 		// TODO Auto-generated method stub
-		session.removeAttribute(name);
+		session.invalidate();
 	}
 
 }

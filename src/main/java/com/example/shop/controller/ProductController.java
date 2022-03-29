@@ -68,6 +68,17 @@ public class ProductController {
         return "layoutShop/aboutproduct";
     }
 	 
+	@RequestMapping("/product/category/{id}")
+    public String proCate(Model model ,@PathVariable("id") Long id, @RequestParam("p") Optional<Integer> p){
+		Category item = categoryService.findById(id);
+		model.addAttribute("item", item);
+		List<Category> categories = categoryService.findAll();
+        model.addAttribute("categories",categories);
+		Pageable pageable = PageRequest.of(p.orElse(0), 8);
+        Page<Product> page = productService.findByCategoryId(item.getId(), pageable);
+        model.addAttribute("page", page);
+      return "layoutShop/products";
+    }
 	 
 	//Low to hight
 	@RequestMapping("/home/products/sort")
@@ -84,6 +95,7 @@ public class ProductController {
         return "layoutShop/products";
     }
 	
+	
 	//Hight to low
 	@RequestMapping("/home/products/sortdesc")
     public String productsortdesc(Model model, @RequestParam("p") Optional<Integer> p , @RequestParam("field") Optional<String> field){
@@ -99,58 +111,48 @@ public class ProductController {
         return "layoutShop/products";
     }
 	
-	@RequestMapping("/product/price/between0_50")
+	@RequestMapping("/product/price/between0_50k")
     public String between(Model model ,@RequestParam("p") Optional<Integer> p){
         Product item = new Product();
         model.addAttribute("item",item);
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories",categories);
         Pageable pageable = PageRequest.of(p.orElse(0), 8);
-        Page<Product> page = productService.findByPriceBetween(0,50,pageable);
+        Page<Product> page = productService.findByPriceBetween(0,50000,pageable);
         model.addAttribute("page", page);
       return "layoutShop/products";
     }
-    @RequestMapping("/product/price/between50_100")
-    public String between50_100(Model model ,@RequestParam("p") Optional<Integer> p){
+    @RequestMapping("/product/price/between50k_300k")
+    public String between50_300(Model model ,@RequestParam("p") Optional<Integer> p){
         Product item = new Product();
         model.addAttribute("item",item);
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories",categories);
         Pageable pageable = PageRequest.of(p.orElse(0), 8);
-        Page<Product> page = productService.findByPriceBetween(50,100,pageable);
+        Page<Product> page = productService.findByPriceBetween(50000,300000,pageable);
         model.addAttribute("page", page);
         return "layoutShop/products";
     }
-    @RequestMapping("/product/price/between100_150")
-    public String between100_150(Model model ,@RequestParam("p") Optional<Integer> p){
+    @RequestMapping("/product/price/between300k_800k")
+    public String between300_800(Model model ,@RequestParam("p") Optional<Integer> p){
         Product item = new Product();
         model.addAttribute("item",item);
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories",categories);
         Pageable pageable = PageRequest.of(p.orElse(0), 8);
-        Page<Product> page = productService.findByPriceBetween(100,150,pageable);
+        Page<Product> page = productService.findByPriceBetween(300000,800000,pageable);
         model.addAttribute("page", page);
         return "layoutShop/products";
     }
-    @RequestMapping("/product/price/between150_200")
-    public String between150_200(Model model ,@RequestParam("p") Optional<Integer> p){
+    
+    @RequestMapping("/product/price/between800k")
+    public String between800(Model model ,@RequestParam("p") Optional<Integer> p){
         Product item = new Product();
         model.addAttribute("item",item);
         List<Category> categories = categoryService.findAll();
         model.addAttribute("categories",categories);
         Pageable pageable = PageRequest.of(p.orElse(0), 8);
-        Page<Product> page = productService.findByPriceBetween(150,200,pageable);
-        model.addAttribute("page", page);
-        return "layoutShop/products";
-    }
-    @RequestMapping("/product/price/between200")
-    public String between200(Model model ,@RequestParam("p") Optional<Integer> p){
-        Product item = new Product();
-        model.addAttribute("item",item);
-        List<Category> categories = categoryService.findAll();
-        model.addAttribute("categories",categories);
-        Pageable pageable = PageRequest.of(p.orElse(0), 8);
-        Page<Product> page = productService.findByPriceBetween(200,1000,pageable);
+        Page<Product> page = productService.findByPriceBetween(800000,9999999,pageable);
         model.addAttribute("page", page);
         return "layoutShop/products";
     }

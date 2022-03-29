@@ -11,7 +11,7 @@
         <meta name="author" content="">
         <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
     
-        <title>KING OTO</title>
+        <title>KING OTO - PRODUCTS</title>
     
         <!-- Bootstrap core CSS -->
         <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -30,53 +30,74 @@
     
 </head>
 <body>
-  <!-- ***** Preloader Start ***** -->
+    <!-- ***** Preloader Start ***** -->
     <div id="preloader">
-      <div class="jumper">
-          <div></div>
-          <div></div>
-          <div></div>
-      </div>
-  </div>  
-  <!-- ***** Preloader End ***** -->
-
-  <!-- Header -->
-  <header class="">
-      <nav class="navbar navbar-expand-lg">
-        <div class="container">
-          <a class="navbar-brand" href="/"><h2>KING <em>OTO</em></h2></a>
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarResponsive">
-            <ul class="navbar-nav ml-auto">
-              <li class="nav-item ">
-                <a class="nav-link" href="/">Home
-                  <span class="sr-only">(current)</span>
-                </a>
-              </li> 
-              <li class="nav-item active">
-                <a class="nav-link" href="/home/products">Our Products</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/home/about">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="/home/contact">Contact Us</a>
-              </li>
-            </ul>
-          </div>
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
         </div>
-      </nav>
-  </header>
-  <!-- End Header-->
+    </div>  
+    <!-- ***** Preloader End ***** -->
+
+    <!-- Header -->
+    <header class="">
+        <nav class="navbar navbar-expand-lg">
+          <div class="container">
+            <a class="navbar-brand" href="/"><h2>KING <em>OTO</em></h2></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item ">
+                  <a class="nav-link" href="/">Home
+                    <span class="sr-only">(current)</span>
+                  </a>
+                </li> 
+                <li class="nav-item">
+                  <a class="nav-link active" href="/home/products">Our Products</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/about">About Us</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/home/contact">Contact Us</a>
+                </li>
+                
+                <c:if test="${user==null}">
+                  <li class="nav-item">
+                    <a class="nav-link" href="/account/login">Login </a>
+                  </li>
+                </c:if>
+                <li class="nav-item ml-1">
+                  <div class="dropdown">
+                     <a class="nav-link" href="" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" > ${user.username} </a>
+					            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                       <a class="dropdown-item" href="/admin/home">Manager</a>
+                       <a class="dropdown-item" href="/account/logout">Log out</a>
+                     </div>
+                   </div>
+                 </li>
+                 <li class="nav-item">
+                    <a style="padding-left: 10px;" class="nav-icon position-relative text-decoration-none" href="/shoppingcart/index"> 
+                    	<i class="fa fa-fw fa-cart-arrow-down text-white mr-1 mt-3"></i> 
+                    </a>
+                 </li>
+                 
+              </ul>
+            </div>
+          </div>
+        </nav>
+    </header>
+    <!-- End Header-->
     <!-- Page Content -->
     <div class="page-heading products-heading header-text">
       <div class="container">
         <div class="row">
           <div class="col-md-12">
             <div class="text-content">
-              <h4>new arrivals</h4>
+              <h4>king oto</h4>
               <h2>top brands - products</h2>
             </div>
           </div>
@@ -106,17 +127,16 @@
                     </div>
                     <ul>
                         <c:forEach var="cate" items="${categories}">
-                            <li ><a  href="/Product/add/${cate.id}" >${cate.name}</a></li>
+                            <li ><a  href="/product/category/${cate.id}" >${cate.name}</a></li>
                         </c:forEach>
                         <li><a href="/home/products/sort?field=price" style="color: #f33f3f"> Low to high</a></li>
                         <li><a href="/home/products/sortdesc?field=price" style="color: #f33f3f"> High to low</a></li>
                     </ul>
                     <ul>
-                        <li><a href="/product/price/between0_50" style="color: #f33f3f"> 0-50$</a></li>
-                        <li><a href="/product/price/between50_100" style="color: #f33f3f"> 50-100$</a></li>
-                        <li><a href="/product/price/between100_150" style="color: #f33f3f"> 100-150$</a></li>
-                        <li><a href="/product/price/between150_200" style="color: #f33f3f"> 200-250$</a></li>
-                        <li><a href="/product/price/between200" style="color: #f33f3f"> 250$ +</a></li>
+                        <li><a href="/product/price/between0_50k" style="color: #f33f3f"> 0-50k$</a></li>
+                        <li><a href="/product/price/between50k_300k" style="color: #f33f3f"> 50k-300k$</a></li>
+                        <li><a href="/product/price/between300k_800k" style="color: #f33f3f"> 300k-800k$</a></li>
+                        <li><a href="/product/price/between800k" style="color: #f33f3f"> 800k$ +</a></li>
                     </ul>
                 </form>
             </div>
@@ -125,10 +145,10 @@
           <c:forEach var="item" items="${page.content}">
             <div class="col-3">
               <div class="product-item">
-                <a href="#"><img src="/static/upload/${item.image}" alt=""></a>
+                <a href="#"><img src="/static/upload/${item.image}"  alt=""></a>
                   <div class="down-content">
                     <a href="#"><h4>${item.name}</h4></a>
-                      <a> $${item.price}</a>
+                      <a>Initial Price: $${item.price}</a>
                       <br>
                       <h7>Reduced : $${item.price*(100-item.discount)*0.01}</h7>
                       <ul class="stars">

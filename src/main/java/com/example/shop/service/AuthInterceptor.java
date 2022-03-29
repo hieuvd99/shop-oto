@@ -27,7 +27,7 @@ public class AuthInterceptor  implements HandlerInterceptor {
             response.sendRedirect("/account/login?error=" + error);
         }
 // không đúng vai tròx`
-        else if( uri.startsWith("/Admin/**")) {
+        else if( uri.startsWith("/admin/**")) {
             error = "Access denied!";
             response.sendRedirect("/account/login?error=" + error);
         }

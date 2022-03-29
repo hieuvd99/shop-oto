@@ -36,43 +36,34 @@ public class AdminProductController {
 	private ParamService paramService;
 	
 	//get all products
-	@RequestMapping("/admin/table")
+	@RequestMapping("/admin/homeproducts")
 	 public String table(Model model ,@RequestParam("p") Optional<Integer> p){
         Product item = new Product();
         model.addAttribute("item",item);
         Pageable pageable = PageRequest.of(p.orElse(0), 5);
         Page<Product> page = productService.findAll(pageable);
         model.addAttribute("page", page)    ;
-        return "layoutChangeAdmin/tables";
+        return "layoutChangeAdmin/adminhomeproducts";
     }
 	
-	//Edit
-	@RequestMapping("/admin/tables/edit/{id}")
-    public String productEdit(Model model, @PathVariable("id") Long id,@RequestParam("p") Optional<Integer> p){
-        Product item = productService.findById(id);
-        model.addAttribute("item", item);
-        Pageable pageable = PageRequest.of(p.orElse(0), 3);
+	@RequestMapping("/admin/homeproducts/add")
+    public String add(Model model , @Validated @ModelAttribute("item") Product item,BindingResult errors, @RequestParam("p") Optional<Integer> p ){
+        Pageable pageable = PageRequest.of(p.orElse(0), 5);
         Page<Product> page = productService.findAll(pageable);
         model.addAttribute("page", page)    ;
-        return "layoutChangeAdmin/tables";
-    }
-	
-	//delete
-	@RequestMapping("/admin/tables/remove/{id}")
-    public String remove(Model model, @PathVariable("id") Long id, RedirectAttributes prams){
-        try {
-            productService.deleteById(id);
-            prams.addAttribute("message", "Delete Success");
-        } catch (Exception e) {
-            prams.addAttribute("message", "Can't detele product beacause the product are odered ");
+        if(errors.hasErrors()){
+           model.addAttribute("message","something was wrong");
+        }else {
+            productService.save(item);
+            model.addAttribute("message","Success");
         }
-        return "redirect:/admin/table";
+        return "layoutChangeAdmin/adminaddproducts";
     }
 	
 	//Save
-	@RequestMapping("/admin/table/save")
+	@RequestMapping("/admin/homeproducts/save")
     public String saveSomething( Model model,@Validated @ModelAttribute("item") Product item, BindingResult errors , @RequestParam("photo") MultipartFile multipartFile, @RequestParam("p") Optional<Integer> p) throws IOException {
-         Pageable pageable = PageRequest.of(p.orElse(0), 3);
+         Pageable pageable = PageRequest.of(p.orElse(0), 5);
          Page<Product> page = productService.findAll(pageable);
          model.addAttribute("page", page)   ;
          if(errors.hasErrors()){
@@ -86,8 +77,33 @@ public class AdminProductController {
              paramService.save(multipartFile, uploadDir);
              model.addAttribute("item", new Product());
          }
-         return "layoutChangeAdmin/tables";
-	}
+         return "layoutChangeAdmin/adminhomeproducts";
+	}	
+		
+	//Edit
+	@RequestMapping("/admin/homeproducts/edit/{id}")
+    public String productEdit(Model model, @PathVariable("id") Long id,@RequestParam("p") Optional<Integer> p){
+        Product item = productService.findById(id);
+        model.addAttribute("item", item);
+        Pageable pageable = PageRequest.of(p.orElse(0), 5);
+        Page<Product> page = productService.findAll(pageable);
+        model.addAttribute("page", page)    ;
+        return "layoutChangeAdmin/admineditproducts";
+    }
+	
+	//delete
+	@RequestMapping("/admin/homeproducts/remove/{id}")
+    public String remove(Model model, @PathVariable("id") Long id, RedirectAttributes prams){
+        try {
+            productService.deleteById(id);
+            prams.addAttribute("message", "Delete Success");
+        } catch (Exception e) {
+            prams.addAttribute("message", "Can't detele product beacause the product are odered ");
+        }
+        return "redirect:/admin/adminhomeproducts";
+    }
+	
+	
 	
 	//Search
 	@RequestMapping("/product/search-and-page")
@@ -99,6 +115,10 @@ public class AdminProductController {
         Pageable pageable = PageRequest.of(p.orElse(0), 5);
         Page<Product> page = productService.findByNameLike("%"+kwords+"%", pageable);
         model.addAttribute("page", page);
-        return "layoutChangeAdmin/tables";
+        return "layoutChangeAdmin/adminhomeproducts";
     }
+	
+	
+	
+	
 }

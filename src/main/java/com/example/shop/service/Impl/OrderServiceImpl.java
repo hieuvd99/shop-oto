@@ -32,4 +32,22 @@ public class OrderServiceImpl implements OrderService{
 		return orderRepository.save(order);
 	}
 
+	@Override
+	public List<Order> findAll() {
+		// TODO Auto-generated method stub
+		return orderRepository.findAll();
+	}
+
+	@Override
+	public Float selectTotals() {
+		// TODO Auto-generated method stub
+		return orderRepository.selectTotals();
+	}
+
+	@Override
+	public Float selectTotalsMonth() {
+		// TODO Auto-generated method stub
+		return orderRepository.selectTotalsMonth();
+	}
+
 }

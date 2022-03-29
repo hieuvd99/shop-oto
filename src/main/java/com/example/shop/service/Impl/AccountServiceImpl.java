@@ -3,6 +3,8 @@ package com.example.shop.service.Impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.shop.model.Account;
@@ -54,6 +56,18 @@ public class AccountServiceImpl implements AccountService{
 	public List<Account> findAll() {
 		// TODO Auto-generated method stub
 		return accountRepository.findAll();
+	}
+
+	@Override
+	public Page<Account> findAll(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return accountRepository.findAll(pageable);
+	}
+
+	@Override
+	public Page<Account> findByUsernameLike(String keywords, Pageable pageable) {
+		// TODO Auto-generated method stub
+		return accountRepository.findByUsernameLike(keywords, pageable);
 	}
 
 }

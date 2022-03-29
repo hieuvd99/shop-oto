@@ -1,10 +1,12 @@
 package com.example.shop.adminController;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.shop.model.Account;
+import com.example.shop.model.CartItem;
+import com.example.shop.model.Product;
 import com.example.shop.service.AccountService;
+import com.example.shop.service.CartItemService;
 import com.example.shop.service.SessionService;
 
 @Controller
@@ -25,6 +31,9 @@ public class AdminAccountController {
 	private AccountService accountService;
 	@Autowired
 	private SessionService sessionService;
+	@Autowired
+	private CartItemService cartItemService;
+	
 	//login
 	@GetMapping("/account/login")
 	public String login() {
@@ -34,14 +43,22 @@ public class AdminAccountController {
 	@PostMapping("/account/login")
 	public String login(Model model, @RequestParam(name="username") String username,
 			@RequestParam(name="password") String password) {
-		Account account = accountService.findAccountByUsername(username);
-		if (!account.getPassword().equals(password)) {
+		Account user = accountService.findAccountByUsername(username);
+		if (!user.getPassword().equals(password)) {
 			model.addAttribute("message", "Invalid password");
 		} else {
-			sessionService.set("account", account);
-			model.addAttribute("message", "Login succeed");
-			return "redirect:/Admin/Views";
-		}
+			String uri = sessionService.get("security-uri");
+            if (uri != null) {
+                return "redirect:" + uri;
+            } else {
+                
+                    sessionService.set("user", user);
+                    return "redirect:/";
+                
+                }
+            }
+            
+		
 		return "layout/loginform";
 	}
 	
@@ -53,7 +70,6 @@ public class AdminAccountController {
         }else {
             accountService.save(item);
             model.addAttribute("message", "Register success ");
-            return "redirect:/account/login";
         }
         return "layout/register";
     }
@@ -61,20 +77,20 @@ public class AdminAccountController {
     //logout
     @RequestMapping("/account/logout")
     public String logout(){
-      sessionService.remove("account");
-//      shoppingCartService.clear();
-        return "redirect:/Home/views";
+      sessionService.invalidate();
+      cartItemService.clear();
+        return "redirect:/";
     }
     
     //find by id
-    @RequestMapping("/account/about/{id}")
+    @RequestMapping("/admin/account/about/{id}")
     public String about(Model model  , @PathVariable("id") long id){
         Account item = accountService.findById(id);
         model.addAttribute("item", item);
-        return "layoutChangeAdmin/aboutadmin";
+        return "layoutChangeAdmin/adminprofile";
     }
     //update
-    @RequestMapping("/account/about/save")
+    @RequestMapping("/admin/account/about/save")
     public String aboutsave(Model model ,@Validated @ModelAttribute("item")  Account item,BindingResult errors ){
         if(errors.hasErrors()){
             model.addAttribute("message","something was wrong");
@@ -82,6 +98,34 @@ public class AdminAccountController {
             accountService.save(item);
             model.addAttribute("message","Update success");
         }
-        return "layoutChangeAdmin/aboutadmin";
+        return "layoutChangeAdmin/adminprofile";
+    }
+    
+	
+	@RequestMapping("/admin/account/change/password")
+    public String passwordchange(@ModelAttribute("item") Account item,@RequestParam("old") String old,@RequestParam("newp") String newp, @RequestParam("confirm") String confirm, Model model ){
+        Account account = accountService.findById(item.getId());
+        if(item.getPassword().equals(old)){
+            if(newp.equals("")){
+                model.addAttribute("message","Please enter your password");
+            }else{
+                if(newp.equals(confirm)){
+                    account.setId(item.getId());
+                    account.setAddress(item.getAddress());
+                    account.setPassword(newp);
+                    account.setFullname(item.getFullname());
+                    account.setUsername(item.getUsername());
+                    account.setPhone(item.getPhone());
+                    account.setUsername(item.getUsername());
+                    accountService.save(account);
+                    model.addAttribute("message","success full");
+                }else{
+                    model.addAttribute("message","New password aren't match Confirmpassword");
+                }
+            }
+        }else {
+            model.addAttribute("message","Your old password are not true");
+        }
+        return"layoutChangeAdmin/adminprofile" ;
     }
 }

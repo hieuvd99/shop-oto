@@ -40,4 +40,16 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryRepository.findAll();
 	}
 
+	@Override
+	public Page<Category> findAll(Pageable pageable) {
+		// TODO Auto-generated method stub
+		return categoryRepository.findAll(pageable);
+	}
+
+	@Override
+	public Category save(Category category) {
+		// TODO Auto-generated method stub
+		return categoryRepository.save(category);
+	}
+
 }
