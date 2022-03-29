@@ -40,12 +40,13 @@ public class AdminAccountController {
         return "layout/loginform";
     }
 	
-	@PostMapping("/account/login")
+	@RequestMapping("/account/login")
 	public String login(Model model, @RequestParam(name="username") String username,
 			@RequestParam(name="password") String password) {
 		Account user = accountService.findAccountByUsername(username);
 		if (!user.getPassword().equals(password)) {
 			model.addAttribute("message", "Invalid password");
+			return "layout/loginform";
 		} else {
 			String uri = sessionService.get("security-uri");
             if (uri != null) {
@@ -53,13 +54,11 @@ public class AdminAccountController {
             } else {
                 
                     sessionService.set("user", user);
-                    return "/";
+                    return "redirect:/";
                 
                 }
             }
             
-		
-		return "layout/loginform";
 	}
 	
 	//register
