@@ -38,7 +38,7 @@ public class HomeController {
 	private ParamService paramService;
 	
 	
-	@RequestMapping("/")
+	@RequestMapping("/home")
     public String views(Model model ,@RequestParam("p") Optional<Integer> p){
         Product item = new Product();
         model.addAttribute("item",item);
@@ -48,7 +48,7 @@ public class HomeController {
         return "layoutShop/body";
     }
 	
-	@RequestMapping("home/about")
+	@RequestMapping("/home/about")
     public String about(){
 		  
         return "layoutShop/about";
