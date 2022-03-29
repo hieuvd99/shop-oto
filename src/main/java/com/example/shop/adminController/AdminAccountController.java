@@ -53,7 +53,7 @@ public class AdminAccountController {
             } else {
                 
                     sessionService.set("user", user);
-                    return "redirect:/home";
+                    return "redirect:";
                 
                 }
             }
