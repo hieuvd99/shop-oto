@@ -74,12 +74,15 @@ public class AdminAccountController {
                 }
             }
 	}
+
+	
 	
 	//register
-    @RequestMapping ("/account/signup")
+    @RequestMapping("/account/signup")
     public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model) throws NoSuchAlgorithmException{
         if(accountService.existsByUsername(item.getUsername()) && accountService.existsByEmail(item.getEmail())){
             model.addAttribute("message", "Some field are not valid . Please fix them");
+            return "layout/register";
         }else {
         	Account account = new Account();
         	MessageDigest md = MessageDigest.getInstance("MD5");
@@ -92,8 +95,9 @@ public class AdminAccountController {
         	account.setPassword(myHash);
             accountService.save(account);
             model.addAttribute("message", "Success") ;
+            return "layout/register";
         }
-        return "layout/register";
+        
     }
     
     //logout
@@ -124,21 +128,27 @@ public class AdminAccountController {
     }
     
 	
-	@RequestMapping("/admin/account/change/password")
-    public String passwordchange(@ModelAttribute("item") Account item,@RequestParam("old") String old,@RequestParam("newp") String newp, @RequestParam("confirm") String confirm, Model model ){
-        Account account = accountService.findById(item.getId());
-        if(item.getPassword().equals(old)){
+	@RequestMapping("/admin/account/change/password/{id}")
+    public String passwordchange(@ModelAttribute("item") Account item,@RequestParam("old") String old,@RequestParam("newp") String newp, @RequestParam("confirm") String confirm, Model model,@PathVariable("id") long id) throws NoSuchAlgorithmException{
+        Account account = accountService.findById(id);
+        
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(old.getBytes());
+        byte[] digest = md.digest();
+        String myChecksum = DatatypeConverter .printHexBinary(digest);
+        
+        
+        if(account.getPassword().equals(myChecksum)){
             if(newp.equals("")){
                 model.addAttribute("message","Please enter your password");
             }else{
                 if(newp.equals(confirm)){
-                    account.setId(item.getId());
-                    account.setAddress(item.getAddress());
-                    account.setPassword(newp);
-                    account.setFullname(item.getFullname());
-                    account.setUsername(item.getUsername());
-                    account.setPhone(item.getPhone());
-                    account.setUsername(item.getUsername());
+                	MessageDigest md_new = MessageDigest.getInstance("MD5");
+                    md_new.update(newp.getBytes());
+                    byte[] digest_new = md_new.digest();
+                    String myHash = DatatypeConverter .printHexBinary(digest_new);
+                    
+                    account.setPassword(myHash);
                     accountService.save(account);
                     model.addAttribute("message","success full");
                 }else{

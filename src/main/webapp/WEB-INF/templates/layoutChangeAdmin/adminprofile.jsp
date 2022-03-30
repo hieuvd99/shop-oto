@@ -181,17 +181,17 @@
                                 <h5 class="card-title">Change Password</h5>
                             </div>
                             <div class="card-body">
-                                <form:form action="/admin/account/change/password" modelAttribute="item" method="post">
+                                <form:form action="/admin/account/change/password/${user.id}" modelAttribute="item" method="post">
                                     <div class="col-10">
                                         <div class="form-group">
                                             <label>Old password</label>
-                                            <input type="search" class="form-control" value="${old}" id="old" name="old" placeholder="Name Product" aria-label="Recipient's username" aria-describedby="button-addon2" >
+                                            <input type="search" class="form-control" value="${old}" id="old" name="old"  aria-label="Recipient's username" aria-describedby="button-addon2" >
                                         </div>
                                     </div>
                                     <div class="col-10">
                                         <div class="form-group">
                                             <label>New password</label>
-                                            <input type="search" class="form-control" value="${newp}" id="newp" name="newp" placeholder="Name Product" aria-label="Recipient's username" aria-describedby="button-addon2" >
+                                            <input type="search" class="form-control" value="${newp}" id="newp" name="newp"  aria-label="Recipient's username" aria-describedby="button-addon2" >
                                         </div>
                                     </div>
                                     
@@ -199,7 +199,7 @@
                                     <div class="col-10">
                                         <div class="form-group">
                                             <label>Confirm password</label>
-                                            <input type="password" class="form-control" placeholder="New password" value="${confirm}" name="confirm"/>
+                                            <input type="password" class="form-control"  value="${confirm}" name="confirm"/>
                                         </div>
                                     </div>
                                     

@@ -20,10 +20,14 @@ public class Account implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private Long id;
+    @NotBlank(message = "Username not blank")
     private String username;
+    @NotBlank(message = "Password not blank")
     private String password;
     private String fullname;
+    @NotEmpty
+    @Email
     private String email;
     private String address;
     private Integer phone;
