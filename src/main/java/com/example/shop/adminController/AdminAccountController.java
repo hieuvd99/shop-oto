@@ -82,19 +82,17 @@ public class AdminAccountController {
     public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model) throws NoSuchAlgorithmException{
 //         if(accountService.existsByUsername(item.getUsername()) || accountService.existsByEmail(item.getEmail())){
 	if(errors.hasErrors()){
-            model.addAttribute("message", "Some field are not valid . Please fix them");
-
-//             model.addAttribute("message", "Some field are not valid . Please fix them");            
+            model.addAttribute("message", "Some field are not valid . Please fix them");         
         }else {
-//         	Account account = new Account();
-//         	MessageDigest md = MessageDigest.getInstance("MD5");
-//             	md.update(item.getPassword().getBytes());
-//             	byte[] digest = md.digest();
-//             	String myHash = DatatypeConverter .printHexBinary(digest);
+        	Account account = new Account();
+        	MessageDigest md = MessageDigest.getInstance("MD5");
+            	md.update(item.getPassword().getBytes());
+            	byte[] digest = md.digest();
+            	String myHash = DatatypeConverter .printHexBinary(digest);
             
-//         	account.setUsername(item.getUsername());
-//         	account.setEmail(item.getEmail());
-//         	account.setPassword(myHash);
+        	account.setUsername(item.getUsername());
+        	account.setEmail(item.getEmail());
+        	account.setPassword(myHash);
             accountService.save(item);
             model.addAttribute("message", "Success") ;
 		
