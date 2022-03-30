@@ -99,7 +99,7 @@ public class AdminAccountController {
 	
 	@RequestMapping("/account/signup")
 	public String signup(){
-		return "layout/loginform";
+		return "layout/register";
 	}
 	
     //logout
