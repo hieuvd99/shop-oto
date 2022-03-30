@@ -84,15 +84,15 @@ public class AdminAccountController {
             model.addAttribute("message", "Some field are not valid . Please fix them");
             
         }else {
-        	Account account = new Account();
-        	MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(item.getPassword().getBytes());
-            byte[] digest = md.digest();
-            String myHash = DatatypeConverter .printHexBinary(digest);
+//         	Account account = new Account();
+//         	MessageDigest md = MessageDigest.getInstance("MD5");
+//             	md.update(item.getPassword().getBytes());
+//             	byte[] digest = md.digest();
+//             	String myHash = DatatypeConverter .printHexBinary(digest);
             
-        	account.setUsername(item.getUsername());
-        	account.setEmail(item.getEmail());
-        	account.setPassword(myHash);
+//         	account.setUsername(item.getUsername());
+//         	account.setEmail(item.getEmail());
+//         	account.setPassword(myHash);
             accountService.save(account);
             model.addAttribute("message", "Success") ;
 		
