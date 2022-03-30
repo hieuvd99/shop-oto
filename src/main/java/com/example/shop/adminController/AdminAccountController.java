@@ -1,11 +1,17 @@
 package com.example.shop.adminController;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
+import javax.servlet.http.HttpSession;
+import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +30,8 @@ import com.example.shop.model.Product;
 import com.example.shop.service.AccountService;
 import com.example.shop.service.CartItemService;
 import com.example.shop.service.SessionService;
+
+
 
 @Controller
 public class AdminAccountController {
@@ -40,12 +49,19 @@ public class AdminAccountController {
         return "layout/loginform";
     }
 	
-	@PostMapping("/account/login")
+	@RequestMapping("/account/login")
 	public String login(Model model, @RequestParam(name="username") String username,
-			@RequestParam(name="password") String password) {
+			@RequestParam(name="password") String password) throws NoSuchAlgorithmException {
 		Account user = accountService.findAccountByUsername(username);
-		if (!user.getPassword().equals(password)) {
-			model.addAttribute("message", "Invalid password");
+		
+		MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        String myChecksum = DatatypeConverter .printHexBinary(digest);
+        
+		if (!myChecksum.equals(user.getPassword())) {
+			model.addAttribute("message", myChecksum);
+			return "layout/loginform";
 		} else {
 			String uri = sessionService.get("security-uri");
             if (uri != null) {
@@ -57,19 +73,25 @@ public class AdminAccountController {
                 
                 }
             }
-            
-		
-		return "layout/loginform";
 	}
 	
 	//register
     @RequestMapping ("/account/signup")
-    public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model){
-        if(errors.hasErrors()){
+    public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model) throws NoSuchAlgorithmException{
+        if(accountService.existsByUsername(item.getUsername()) && accountService.existsByEmail(item.getEmail())){
             model.addAttribute("message", "Some field are not valid . Please fix them");
         }else {
-            accountService.save(item);
-            model.addAttribute("message", "Register success ");
+        	Account account = new Account();
+        	MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(item.getPassword().getBytes());
+            byte[] digest = md.digest();
+            String myHash = DatatypeConverter .printHexBinary(digest);
+            
+        	account.setUsername(item.getUsername());
+        	account.setEmail(item.getEmail());
+        	account.setPassword(myHash);
+            accountService.save(account);
+            model.addAttribute("message", accountService.existsByUsername(item.getUsername()) );
         }
         return "layout/register";
     }

@@ -7,10 +7,9 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import lombok.Data;
 
-import com.sun.istack.NotNull;
-
-
+@Data
 @Entity
 @Table(name = "account")
 public class Account implements Serializable{
@@ -22,13 +21,9 @@ public class Account implements Serializable{
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotBlank(message = "Username not blank")
     private String username;
-    @NotBlank(message = "Password not blank")
     private String password;
     private String fullname;
-    @NotEmpty
-    @Email
     private String email;
     private String address;
     private Integer phone;

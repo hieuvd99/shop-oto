@@ -17,4 +17,6 @@ public interface AccountService {
     List<Account> findAllById(long id);
     Account save(Account account);
     Page<Account> findByUsernameLike(String keywords, Pageable pageable);
+    Boolean existsByUsername(String username);
+    Boolean existsByEmail(String email);
 }

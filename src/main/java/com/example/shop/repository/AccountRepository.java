@@ -17,4 +17,6 @@ public interface AccountRepository extends JpaRepository<Account, Long>{
     List<Account> findAllById(long id);
 
     Page<Account> findByUsernameLike(String keywords, Pageable pageable);
+    Boolean existsByUsername(String username);
+    Boolean existsByEmail(String email);
 }
