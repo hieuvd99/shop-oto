@@ -44,38 +44,38 @@ public class AdminAccountController {
 	private CartItemService cartItemService;
 	
 	//login
-// 	@GetMapping("/account/login")
-// 	public String login() {
-//         return "layout/loginform";
-//     }
+	@GetMapping("/account/login")
+	public String login() {
+		return "layout/loginform";
+	    }
 	
-// 	@RequestMapping("/account/login")
-// 	public String login(Model model, @RequestParam(name="username") String username,
-// 			@RequestParam(name="password") String password) throws NoSuchAlgorithmException {
-// 		Account user = accountService.findAccountByUsername(username);
+	@RequestMapping("/account/login")
+	public String login(Model model, @RequestParam(name="username") String username,
+			@RequestParam(name="password") String password) throws NoSuchAlgorithmException {
+		Account user = accountService.findAccountByUsername(username);
 		
-// 		MessageDigest md = MessageDigest.getInstance("MD5");
-//         md.update(password.getBytes());
-//         byte[] digest = md.digest();
-//         String myChecksum = DatatypeConverter .printHexBinary(digest);
+		MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        String myChecksum = DatatypeConverter .printHexBinary(digest);
         
-// 		if (!myChecksum.equals(user.getPassword())) {
-// 			model.addAttribute("message", "Invalid password");
-// 			return "layout/loginform";
-// 		} else {
-// 			String uri = sessionService.get("security-uri");
-//             if (uri != null) {
-//                 return "redirect:" + uri;
-//             } else {
+		if (!myChecksum.equals(user.getPassword())) {
+			model.addAttribute("message", "Invalid password");
+			return "layout/loginform";
+		} else {
+			String uri = sessionService.get("security-uri");
+            if (uri != null) {
+                return "redirect:" + uri;
+            } else {
                 
-//                     sessionService.set("user", user);
-//                     return "redirect:/";
+                    sessionService.set("user", user);
+                    return "redirect:/";
                 
-//                 }
-//             }
-// 	}
+                }
+            }
+	}
 	
-// 	//register
+	//register
 //     @RequestMapping("/account/signup")
 //     public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model) throws NoSuchAlgorithmException{
 //         if(accountService.existsByUsername(item.getUsername()) && accountService.existsByEmail(item.getEmail())){
@@ -97,9 +97,9 @@ public class AdminAccountController {
 //         }
 //     }
 	
-	@RequestMapping("/home/a")
-	public String a(){
-		return "redirect:/b";
+	@RequestMapping("/account/signup")
+	public String signup(){
+		return "layout/loginform";
 	}
 	
     //logout
