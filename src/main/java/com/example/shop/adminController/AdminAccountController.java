@@ -96,10 +96,10 @@ public class AdminAccountController {
 // 		return "layout/register";
 //         }
 //     }
-        @RequestMapping ("/account/signup")
+        @RequestMapping ("/account/a")
     public String signup() {
         
-		return "layout/register";
+		return "gggg";
         
     }
 	
