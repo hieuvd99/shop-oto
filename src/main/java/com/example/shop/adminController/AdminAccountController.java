@@ -97,17 +97,17 @@ public class AdminAccountController {
 //         }
 //     }
         @RequestMapping ("/account/a")
-	    public String signup() {
+	    public String c() {
 			return "gggg";
 	}
 	
 	@RequestMapping ("/a")
-	    public String signup() {
+	    public String a() {
 			return "gggg";
 	}
 	
 	@RequestMapping ("/b")
-	    public String signup() {
+	    public String b() {
 			return "layout/register";
 	}
 	
