@@ -93,7 +93,7 @@ public class AdminAccountController {
         	account.setEmail(item.getEmail());
         	account.setPassword(myHash);
             accountService.save(item);
-            model.addAttribute("message", "Success") ;
+            model.addAttribute("message", myHash) ;
 		
         }
         return "layout/register";
