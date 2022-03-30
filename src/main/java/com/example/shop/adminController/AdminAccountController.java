@@ -77,10 +77,11 @@ public class AdminAccountController {
 
 	
 	
-	//register
+    //register
     @RequestMapping("/account/signup")
     public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model) throws NoSuchAlgorithmException{
-	if( errors.hasErrors() || accountService.existsByUsername(item.getUsername()) || accountService.existsByEmail(item.getEmail()) ){
+	    // || accountService.existsByUsername(item.getUsername()) || accountService.existsByEmail(item.getEmail())
+	if( errors.hasErrors()  ){
             model.addAttribute("message", "Some field are not valid . Please fix them");         
         }else {
         	Account account = new Account();
