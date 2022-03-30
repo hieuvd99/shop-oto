@@ -44,59 +44,63 @@ public class AdminAccountController {
 	private CartItemService cartItemService;
 	
 	//login
-	@GetMapping("/account/login")
-	public String login() {
-        return "layout/loginform";
-    }
+// 	@GetMapping("/account/login")
+// 	public String login() {
+//         return "layout/loginform";
+//     }
 	
-	@RequestMapping("/account/login")
-	public String login(Model model, @RequestParam(name="username") String username,
-			@RequestParam(name="password") String password) throws NoSuchAlgorithmException {
-		Account user = accountService.findAccountByUsername(username);
+// 	@RequestMapping("/account/login")
+// 	public String login(Model model, @RequestParam(name="username") String username,
+// 			@RequestParam(name="password") String password) throws NoSuchAlgorithmException {
+// 		Account user = accountService.findAccountByUsername(username);
 		
-		MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(password.getBytes());
-        byte[] digest = md.digest();
-        String myChecksum = DatatypeConverter .printHexBinary(digest);
+// 		MessageDigest md = MessageDigest.getInstance("MD5");
+//         md.update(password.getBytes());
+//         byte[] digest = md.digest();
+//         String myChecksum = DatatypeConverter .printHexBinary(digest);
         
-		if (!myChecksum.equals(user.getPassword())) {
-			model.addAttribute("message", "Invalid password");
-			return "layout/loginform";
-		} else {
-			String uri = sessionService.get("security-uri");
-            if (uri != null) {
-                return "redirect:" + uri;
-            } else {
+// 		if (!myChecksum.equals(user.getPassword())) {
+// 			model.addAttribute("message", "Invalid password");
+// 			return "layout/loginform";
+// 		} else {
+// 			String uri = sessionService.get("security-uri");
+//             if (uri != null) {
+//                 return "redirect:" + uri;
+//             } else {
                 
-                    sessionService.set("user", user);
-                    return "redirect:/";
+//                     sessionService.set("user", user);
+//                     return "redirect:/";
                 
-                }
-            }
-	}
+//                 }
+//             }
+// 	}
 	
-	//register
-    @RequestMapping("/account/signup")
-    public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model) throws NoSuchAlgorithmException{
-        if(accountService.existsByUsername(item.getUsername()) && accountService.existsByEmail(item.getEmail())){
-            model.addAttribute("message", "Some field are not valid . Please fix them");
-		return "layout/register";
-        }else {
-        	Account account = new Account();
-        	MessageDigest md = MessageDigest.getInstance("MD5");
-            md.update(item.getPassword().getBytes());
-            byte[] digest = md.digest();
-            String myHash = DatatypeConverter .printHexBinary(digest);
+// 	//register
+//     @RequestMapping("/account/signup")
+//     public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model) throws NoSuchAlgorithmException{
+//         if(accountService.existsByUsername(item.getUsername()) && accountService.existsByEmail(item.getEmail())){
+//             model.addAttribute("message", "Some field are not valid . Please fix them");
+// 		return "layout/register";
+//         }else {
+//         	Account account = new Account();
+//         	MessageDigest md = MessageDigest.getInstance("MD5");
+//             md.update(item.getPassword().getBytes());
+//             byte[] digest = md.digest();
+//             String myHash = DatatypeConverter .printHexBinary(digest);
             
-        	account.setUsername(item.getUsername());
-        	account.setEmail(item.getEmail());
-        	account.setPassword(myHash);
-            accountService.save(account);
-            model.addAttribute("message", "Success") ;
-		return "layout/register";
-        }
-    }
+//         	account.setUsername(item.getUsername());
+//         	account.setEmail(item.getEmail());
+//         	account.setPassword(myHash);
+//             accountService.save(account);
+//             model.addAttribute("message", "Success") ;
+// 		return "layout/register";
+//         }
+//     }
 	
+	@RequestMapping("/home/a")
+	public String a(){
+		return "redirect:/b";
+	}
 	
     //logout
     @RequestMapping("/account/logout")
