@@ -81,7 +81,7 @@ public class AdminAccountController {
     @RequestMapping("/account/signup")
     public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model) throws NoSuchAlgorithmException{
 //         if(accountService.existsByUsername(item.getUsername()) || accountService.existsByEmail(item.getEmail())){
-	if(errors.hasErrors()){
+	if( accountService.existsByUsername(item.getUsername()) ){
             model.addAttribute("message", "Some field are not valid . Please fix them");         
         }else {
         	Account account = new Account();
@@ -100,16 +100,7 @@ public class AdminAccountController {
         return "layout/register";
     }
 	
-// 	@RequestMapping ("/account/signup")
-//     public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model){
-//         if(errors.hasErrors()){
-//             model.addAttribute("message", "Some field are not valid . Please fix them");
-//         }else {
-//             accountService.save(item);
-//             model.addAttribute("message", "Register success ");
-//         }
-//         return "layout/register";
-//     }
+
     
     //logout
     @RequestMapping("/account/logout")
