@@ -55,12 +55,17 @@ public class AdminAccountController {
 		Account user = accountService.findAccountByUsername(username);
 		
 		MessageDigest md = MessageDigest.getInstance("MD5");
-        md.update(password.getBytes());
-        byte[] digest = md.digest();
-        String myChecksum = DatatypeConverter .printHexBinary(digest);
+        	md.update(password.getBytes());
+        	byte[] digest = md.digest();
+        	String myChecksum = DatatypeConverter .printHexBinary(digest);
+		
+		MessageDigest md2 = MessageDigest.getInstance("MD5");
+        	md2.update(user.getPassword().getBytes());
+        	byte[] digest2 = md2.digest();
+        	String myChecksum2 = DatatypeConverter .printHexBinary(digest2);
         
-		if (!myChecksum.equals(user.getPassword())) {
-			model.addAttribute("message", myChecksum + user.getPassword()  );
+		if (!myChecksum.equals(myChecksum2)) {
+			model.addAttribute("message", myChecksum + myChecksum2  );
 			return "layout/loginform";
 		} else {
 			String uri = sessionService.get("security-uri");
