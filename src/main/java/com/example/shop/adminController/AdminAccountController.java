@@ -75,6 +75,11 @@ public class AdminAccountController {
             }
 	}
 	
+	@GetMapping("/account/signup")
+	public String signup() {
+        return "layout/register";
+    }
+	
 	//register
     @RequestMapping ("/account/signup")
     public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model) throws NoSuchAlgorithmException{
