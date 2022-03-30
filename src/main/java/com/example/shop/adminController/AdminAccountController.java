@@ -60,7 +60,7 @@ public class AdminAccountController {
         String myChecksum = DatatypeConverter .printHexBinary(digest);
         
 		if (!myChecksum.equals(user.getPassword())) {
-			model.addAttribute("message", myChecksum + user.getPassword()) );
+			model.addAttribute("message", user.getPassword())  );
 			return "layout/loginform";
 		} else {
 			String uri = sessionService.get("security-uri");
