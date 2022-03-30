@@ -49,37 +49,17 @@ public class AdminAccountController {
         return "layout/loginform";
     }
 	
-// 	@RequestMapping("/account/login")
-// 	public String login(Model model, @RequestParam(name="username") String username,
-// 			@RequestParam(name="password") String password) throws NoSuchAlgorithmException {
-// 		Account user = accountService.findAccountByUsername(username);
-		
-// 		MessageDigest md = MessageDigest.getInstance("MD5");
-//         md.update(password.getBytes());
-//         byte[] digest = md.digest();
-//         String myChecksum = DatatypeConverter .printHexBinary(digest);
-        
-// 		if (!myChecksum.equals(user.getPassword())) {
-// 			model.addAttribute("message", "Invalid password");
-// 			return "layout/loginform";
-// 		} else {
-// 			String uri = sessionService.get("security-uri");
-//             if (uri != null) {
-//                 return "redirect:" + uri;
-//             } else {
-                
-//                     sessionService.set("user", user);
-//                     return "redirect:/";
-                
-//                 }
-//             }
-// 	}
-
 	@RequestMapping("/account/login")
 	public String login(Model model, @RequestParam(name="username") String username,
-			@RequestParam(name="password") String password) {
+			@RequestParam(name="password") String password) throws NoSuchAlgorithmException {
 		Account user = accountService.findAccountByUsername(username);
-		if (!user.getPassword().equals(password)) {
+		
+		MessageDigest md = MessageDigest.getInstance("MD5");
+        md.update(password.getBytes());
+        byte[] digest = md.digest();
+        String myChecksum = DatatypeConverter .printHexBinary(digest);
+        
+		if (!myChecksum.equals(user.getPassword())) {
 			model.addAttribute("message", "Invalid password");
 			return "layout/loginform";
 		} else {
@@ -93,43 +73,32 @@ public class AdminAccountController {
                 
                 }
             }
-            
 	}
-	
-	
+
 	
     //register
-//     @RequestMapping("/account/signup")
-//     public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model) throws NoSuchAlgorithmException{
-// 	if( errors.hasErrors() || accountService.existsByUsername(item.getUsername()) || accountService.existsByEmail(item.getEmail()) ){
-//             model.addAttribute("message", "Some field are not valid . Please fix them");         
-//         }else {
-//         	Account account = new Account();
-//         	MessageDigest md = MessageDigest.getInstance("MD5");
-//             	md.update(item.getPassword().getBytes());
-//             	byte[] digest = md.digest();
-//             	String myHash = DatatypeConverter .printHexBinary(digest);
-            
-//         	account.setUsername(item.getUsername());
-//         	account.setEmail(item.getEmail());
-//         	account.setPassword(myHash);
-//             accountService.save(item);
-//             model.addAttribute("message", "Success") ;
-		
-//         }
-//         return "layout/register";
-//     }
-	
-    @RequestMapping ("/account/signup")
-    public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model){
-        if(errors.hasErrors()){
-            model.addAttribute("message", "Some field are not valid . Please fix them");
+    @RequestMapping("/account/signup")
+    public String signup(@Validated @ModelAttribute("item") Account item , BindingResult errors,Model model) throws NoSuchAlgorithmException{
+	    // || accountService.existsByUsername(item.getUsername()) || accountService.existsByEmail(item.getEmail()) 
+	if( errors.hasErrors() ){
+            model.addAttribute("message", "Some field are not valid . Please fix them");         
         }else {
+        	Account account = new Account();
+        	MessageDigest md = MessageDigest.getInstance("MD5");
+            	md.update(item.getPassword().getBytes());
+            	byte[] digest = md.digest();
+            	String myHash = DatatypeConverter .printHexBinary(digest);
+            
+        	account.setUsername(item.getUsername());
+        	account.setEmail(item.getEmail());
+        	account.setPassword(myHash);
             accountService.save(item);
-            model.addAttribute("message", "Register success ");
+            model.addAttribute("message", "Success") ;
+		
         }
         return "layout/register";
     }
+
     
     //logout
     @RequestMapping("/account/logout")
