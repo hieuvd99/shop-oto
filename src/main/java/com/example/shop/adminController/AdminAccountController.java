@@ -97,11 +97,19 @@ public class AdminAccountController {
 //         }
 //     }
         @RequestMapping ("/account/a")
-    public String signup() {
-        
-		return "gggg";
-        
-    }
+	    public String signup() {
+			return "gggg";
+	}
+	
+	@RequestMapping ("/a")
+	    public String signup() {
+			return "gggg";
+	}
+	
+	@RequestMapping ("/b")
+	    public String signup() {
+			return "layout/register";
+	}
 	
 	
     //logout
