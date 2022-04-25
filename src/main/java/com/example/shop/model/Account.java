@@ -1,14 +1,15 @@
 package com.example.shop.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import lombok.Data;
 
-import com.sun.istack.NotNull;
-
+@Data
 @Entity
 @Table(name = "account")
 public class Account implements Serializable{
@@ -19,7 +20,7 @@ public class Account implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	private Long id;
     @NotBlank(message = "Username not blank")
     private String username;
     @NotBlank(message = "Password not blank")
@@ -31,8 +32,15 @@ public class Account implements Serializable{
     private String address;
     private Integer phone;
     private String photo;
+    @OneToMany(mappedBy = "account")
+    List<Order> orders;
     
-    
+	public List<Order> getOrders() {
+		return orders;
+	}
+	public void setOrders(List<Order> orders) {
+		this.orders = orders;
+	}
 	public Long getId() {
 		return id;
 	}

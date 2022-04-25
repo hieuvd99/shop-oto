@@ -52,7 +52,7 @@
 	            <a href="/account/passwordMail" class="float-right">Forgot Password?</a>
 	        </div>
         </form>
-        <p class="text-center"><a href="/account/register">Create an Account</a></p>
+        <p class="text-center"><a href="/account/signup">Create an Account</a></p>
         <b><i>${message}${param.error}</i></b>
 	</div>
 </body>
